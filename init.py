@@ -1,7 +1,10 @@
+from sys import exit
+
 import pygame
 from pygame.locals import *
-from sys import exit
+
 import tela_jogo
+
 
 def init():
     pygame.init()
@@ -12,4 +15,3 @@ def init():
                 pygame.quit()
                 exit()
         tela_jogo.criar_tela()
-
