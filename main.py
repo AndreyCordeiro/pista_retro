@@ -1,3 +1,3 @@
-import tela_jogo
+import init
 
-tela_jogo.criar_tela()
+init.init()
