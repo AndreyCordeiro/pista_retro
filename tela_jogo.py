@@ -1,4 +1,5 @@
 import pygame
+from objeto import objeto
 
 largura = 1440
 altura = 800
@@ -14,6 +15,8 @@ pygame.display.set_caption("Pista Retro")
 
 def criar_tela():
     tela.fill((0, 128, 0))
+    arbusto = objeto(largura/4  , 400, 10, 20, 'imagens/arbusto.png')
+    imagemArbusto = pygame.image.load(arbusto.imagemObj)
 
     pygame.draw.rect(tela, (0, 128, 0), (1, 0, 340, 880))
     pygame.draw.rect(tela, (105, 105, 105), (300, 0, 800, 840))
@@ -27,5 +30,7 @@ def criar_tela():
         if y >= altura:
             posicoes_y[i] = 0
         posicoes_y[i] += 3  # velocidade do carro * tempo (frame)
+
+    tela.blit(imagemArbusto, (arbusto.posicaoX, arbusto.posicaoY))
 
     pygame.display.update()
