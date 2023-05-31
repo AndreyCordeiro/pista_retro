@@ -35,4 +35,4 @@ def criar_tela():
 
     pygame.display.update()
 
-##Para ajustar o commit
+# Para ajustar o commit https://www.youtube.com/watch?v=k_7UZ1wlIxw
