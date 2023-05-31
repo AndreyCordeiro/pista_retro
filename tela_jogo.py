@@ -34,3 +34,5 @@ def criar_tela():
     tela.blit(imagemArbusto, (arbusto.posicaoX, arbusto.posicaoY))
 
     pygame.display.update()
+
+##Para ajustar o commit
