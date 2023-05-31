@@ -1,20 +1,20 @@
-class objeto:
-    def __init__(self, posicaoX, posicaoY, largura, altura, imagemObj):
+# pylint: disable=missing-class-docstring
+import pygame
+
+
+class Objeto(pygame.sprite.Sprite):
+    def __init__(self, posicaoX, posicaoY, largura, altura, imagemObj, velocidade):
+        pygame.sprite.Sprite.__init__(self)
+        imagemArbusto = pygame.image.load(imagemObj)
+        objeto_imagem = pygame.transform.scale(imagemArbusto, (largura, altura))
 
         self.altura = altura
         self.largura = largura
         self.posicaoX = posicaoX
         self.posicaoY = posicaoY
-        self.imagemObj = imagemObj
+        self.image = objeto_imagem
+        self.rect = self.image.get_rect()
+        self.velocidade = velocidade
 
-    
-
-    def __str__(self):
-        self.altura
-        self.largura
-        self.imagemObj
-        self.posicaoX
-        self.posicaoY
-
-
-
+    def update(self):
+        self.rect.x += self.velocidade
