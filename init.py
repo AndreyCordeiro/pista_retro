@@ -14,4 +14,4 @@ def init():
             if event.type == QUIT:
                 pygame.quit()
                 exit()
-        tela_jogo.criar_tela()
+        tela_jogo.renderizar_tela()
