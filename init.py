@@ -3,7 +3,7 @@ from sys import exit
 import pygame
 from pygame.locals import *
 
-import tela_jogo
+import menu
 
 
 def init():
@@ -14,4 +14,4 @@ def init():
             if event.type == QUIT:
                 pygame.quit()
                 exit()
-        tela_jogo.criar_tela()
+        menu.criar_menu()

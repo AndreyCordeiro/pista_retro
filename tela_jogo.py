@@ -1,4 +1,5 @@
 import pygame
+import menu
 
 largura = 1440
 altura = 800
