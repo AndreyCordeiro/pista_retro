@@ -1,7 +1,9 @@
 import pygame
 import time
 from objeto import objeto
+from carro_em_movimento import CarroEmMovimento
 
+carro = CarroEmMovimento(y= 600, x= 400)
 class Tela: 
     def __init__(self, largura, altura, posicoes_y, posicoes_x, tempo_inicial):
         self.largura = largura                                
@@ -23,8 +25,7 @@ class Tela:
 
     def renderizar_tela(self, velocidade_pista):
 
-        arbusto = objeto(self.largura/4  , 400, 300, 300, 'imagens/arbusto.png',0)
-
+        arbusto = objeto(self.largura/64  , 400, 150, 150, 'imagens/arbusto.png',0)
         pygame.draw.rect(self.tela, (0, 128, 0), (1, 0, 340, 880))
         pygame.draw.rect(self.tela, (105, 105, 105), (300, 0, 800, 840))
         pygame.draw.rect(self.tela, (0, 128, 0), (1100, 0, 340, 840))
@@ -45,7 +46,8 @@ class Tela:
             self.posicoes_y[i] += self.deslocamento_pista
 
         self.tela.blit(arbusto.imagem, (arbusto.posicaoX, arbusto.posicaoY))
-
+        carro.movimentarCarrinho()
+        self.tela.blit(carro.imagem, (carro.x, carro.y))
         pygame.display.update()
         t = time.time()
         self.tempo_decorrido = t - self.tempo_ultimo
