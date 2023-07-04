@@ -3,10 +3,12 @@ import time
 from objeto import objeto
 from carro_em_movimento import CarroEmMovimento
 
-carro = CarroEmMovimento(y= 600, x= 400)
-class Tela: 
+carro = CarroEmMovimento(y=600, x=400)
+
+
+class Tela:
     def __init__(self, largura, altura, posicoes_y, posicoes_x, tempo_inicial):
-        self.largura = largura                                
+        self.largura = largura
         self.altura = altura
         self.posicoes_y = posicoes_y
         self.posicoes_x = posicoes_x
@@ -15,17 +17,22 @@ class Tela:
         self.tempo_decorrido = 0.0
         self.posicao_pista = 0
         self.deslocamento_pista = 0
-        self.tela = pygame.display.set_mode((self.largura, self.altura), pygame.RESIZABLE)
+        self.tela = pygame.display.set_mode(
+            (self.largura, self.altura), pygame.RESIZABLE)
         self.icone = pygame.image.load("./imagens/icone.jpg")
         self.tela.fill((0, 128, 0))
         pygame.display.set_icon(self.icone)
 
         pygame.display.set_caption("Pista Retro")
 
+        # Definições para o marcador de pontos
+        self.fonte = pygame.font.Font(None, 24)
+        self.velocimetro_pos = (20, 20)
 
     def renderizar_tela(self, velocidade_pista):
 
-        arbusto = objeto(self.largura/64  , 400, 150, 150, 'imagens/arbusto.png',0)
+        arbusto = objeto(self.largura/64, 400, 150,
+                         150, 'imagens/arbusto.png', 0)
         pygame.draw.rect(self.tela, (0, 128, 0), (1, 0, 340, 880))
         pygame.draw.rect(self.tela, (105, 105, 105), (300, 0, 800, 840))
         pygame.draw.rect(self.tela, (0, 128, 0), (1100, 0, 340, 840))
@@ -33,8 +40,8 @@ class Tela:
         self.deslocamento_pista = velocidade_pista * self.tempo_decorrido
         self.posicao_pista += self.deslocamento_pista
 
-        #print(self.tempo_decorrido)
-        #print(velocidade_pista)
+        # print(self.tempo_decorrido)
+        # print(velocidade_pista)
 
         for x in self.posicoes_x:
             for y in self.posicoes_y:
@@ -46,11 +53,16 @@ class Tela:
             self.posicoes_y[i] += self.deslocamento_pista
 
         self.tela.blit(arbusto.imagem, (arbusto.posicaoX, arbusto.posicaoY))
+
         carro.movimentarCarrinho()
         self.tela.blit(carro.imagem, (carro.x, carro.y))
+
+        # Apresentar a quantidade de pontos na tela
+        velocimetro = self.fonte.render(
+            f"Pontos: {velocidade_pista}", True, (255, 255, 255))
+        self.tela.blit(velocimetro, self.velocimetro_pos)
+
         pygame.display.update()
         t = time.time()
         self.tempo_decorrido = t - self.tempo_ultimo
         self.tempo_ultimo = t
-
-                
