@@ -15,5 +15,10 @@ class CarroEmMovimento:
         comandos = pygame.key.get_pressed()
         if comandos[pygame.K_RIGHT]:
             self.x += self.v
+            if(self.x > 1010):
+                self.x = 1010
+        
         if comandos[pygame.K_LEFT]:
             self.x -= self.v
+            if(self.x < 280):
+                self.x = 280

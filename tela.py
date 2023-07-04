@@ -33,8 +33,8 @@ class Tela:
         self.deslocamento_pista = velocidade_pista * self.tempo_decorrido
         self.posicao_pista += self.deslocamento_pista
 
-        print(self.tempo_decorrido)
-        print(velocidade_pista)
+        #print(self.tempo_decorrido)
+        #print(velocidade_pista)
 
         for x in self.posicoes_x:
             for y in self.posicoes_y:
