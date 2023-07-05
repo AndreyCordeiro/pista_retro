@@ -1,35 +1,38 @@
 import pygame
+from objeto import objeto
 
 
-class CarroEmMovimento:
-
-    def __init__(self, x, y):
-        carro = pygame.image.load("./imagens/carro_vermelho.png")
+class CarroEmMovimento(objeto):
+  
+    def __init__(self, posicaoX, posicaoY, largura, altura, imagemObj,screen):
+        super().__init__(posicaoX, posicaoY, largura, altura, imagemObj, screen)
+        carro = pygame.image.load(imagemObj)
         self.imagem = carro
-        self.x = x
-        self.y = y
-        self.v = 5
+        self.configAceleracaoY = 50
+        
 
-    def movimentarCarrinho(self):
-        comando = pygame.key.get_pressed()
+    def movimentarCarrinho(self, dt):
+        comandos = pygame.key.get_pressed()
 
-        if comando[pygame.K_RIGHT] or comando[pygame.K_d]:
-            self.x += self.v
-            if self.x > 1010:
-                self.x = 1010
+        if comandos[pygame.K_RIGHT]:
+            self.velocidadeX = 300
+            if(self.posicaoX > 1010):
+                self.posicaoX = 1010
+        elif comandos[pygame.K_LEFT]:
+            self.velocidadeX = -300
+            if(self.posicaoX < 280):
+                self.posicaoX = 280
+        else:
+            self.velocidadeX = 0
 
-        if comando[pygame.K_LEFT] or comando[pygame.K_a]:
-            self.x -= self.v
-            if self.x < 280:
-                self.x = 280
+        if comandos[pygame.K_UP]:
+            self.aceleracaoY = 250
+        elif comandos[pygame.K_DOWN]:
+            self.aceleracaoY = -100
+            if self.velocidadeYReal < 0:
+                self.velocidadeYReal = 0
+        else:
+            self.aceleracaoY = 0
 
-        if comando[pygame.K_UP] or comando[pygame.K_w]:
-            self.y -= self.v
-            if self.y < 0:
-                self.y = 0
-
-        if comando[pygame.K_DOWN] or comando[pygame.K_s]:
-            self.y += self.v
-            if self.y > 640:
-                self.y = 640
-
+    def renderizar(self, dt, tela):
+        tela.blit(self.imagem, (self.posicaoX, self.posicaoY))
