@@ -3,32 +3,31 @@ from objeto import objeto
 
 
 class CarroEmMovimento(objeto):
-  
-    def __init__(self, posicaoX, posicaoY, largura, altura, imagemObj,screen):
+
+    def __init__(self, posicaoX, posicaoY, largura, altura, imagemObj, screen):
         super().__init__(posicaoX, posicaoY, largura, altura, imagemObj, screen)
         carro = pygame.image.load(imagemObj)
         self.imagem = carro
         self.configAceleracaoY = 50
-        
 
     def movimentarCarrinho(self, dt):
-        comandos = pygame.key.get_pressed()
+        comando = pygame.key.get_pressed()
 
-        if comandos[pygame.K_RIGHT]:
-            self.velocidadeX = 300
-            if(self.posicaoX > 1010):
+        if comando[pygame.K_RIGHT] or comando[pygame.K_d]:
+            self.velocidadeX = 500
+            if (self.posicaoX > 1010):
                 self.posicaoX = 1010
-        elif comandos[pygame.K_LEFT]:
-            self.velocidadeX = -300
-            if(self.posicaoX < 280):
+        elif comando[pygame.K_LEFT] or comando[pygame.K_a]:
+            self.velocidadeX = -500
+            if (self.posicaoX < 280):
                 self.posicaoX = 280
         else:
             self.velocidadeX = 0
 
-        if comandos[pygame.K_UP]:
-            self.aceleracaoY = 250
-        elif comandos[pygame.K_DOWN]:
-            self.aceleracaoY = -100
+        if comando[pygame.K_UP] or comando[pygame.K_w]:
+            self.aceleracaoY = 500
+        elif comando[pygame.K_DOWN] or comando[pygame.K_s]:
+            self.aceleracaoY = -600
             if self.velocidadeYReal < 0:
                 self.velocidadeYReal = 0
         else:
