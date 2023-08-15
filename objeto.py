@@ -1,7 +1,7 @@
 import pygame
 
 
-class objeto(pygame.sprite.Sprite):
+class Objeto(pygame.sprite.Sprite):
     def __init__(self, posicaoX, posicaoY, largura, altura, imagemObj, screen):
         pygame.sprite.Sprite.__init__(self)
         imagemArbusto = pygame.image.load(imagemObj)
@@ -21,7 +21,7 @@ class objeto(pygame.sprite.Sprite):
         self.aceleracaoY = 0
 
     def processarFisica(self, dt):
-        self.velocidadeYVirtual = self.velocidadeYReal - self.screen.carro.velocidadeYReal
+        self.velocidadeYVirtual = (self.velocidadeYReal - self.screen.carro.velocidadeYReal) * -1
         self.velocidadeYReal = self.velocidadeYReal + (self.aceleracaoY * dt)
         self.posicaoX = self.posicaoX + (self.velocidadeX * dt)
         self.posicaoY = self.posicaoY + (self.velocidadeYVirtual * dt)

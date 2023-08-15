@@ -1,14 +1,10 @@
 import pygame
-from objeto import objeto
+from carro import Carro
 
 
-class CarroEmMovimento(objeto):
-
+class CarroJogador(Carro):
     def __init__(self, posicaoX, posicaoY, largura, altura, imagemObj, screen):
         super().__init__(posicaoX, posicaoY, largura, altura, imagemObj, screen)
-        carro = pygame.image.load(imagemObj)
-        self.imagem = carro
-        self.configAceleracaoY = 50
 
     def movimentarCarrinho(self, dt):
         comando = pygame.key.get_pressed()
@@ -32,6 +28,3 @@ class CarroEmMovimento(objeto):
                 self.velocidadeYReal = 0
         else:
             self.aceleracaoY = 0
-
-    def renderizar(self, dt, tela):
-        tela.blit(self.imagem, (self.posicaoX, self.posicaoY))
