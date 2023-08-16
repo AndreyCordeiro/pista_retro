@@ -1,11 +1,11 @@
 import pygame
 import time
 from objeto import Objeto
-from carro import Carro
 from carro_jogador import CarroJogador
 from carro_bot import CarroBot
 import random
-
+import pygame_menu
+import init
 
 class Tela:
     def __init__(self, largura, altura, posicoes_y, posicoes_x, tempo_inicial):
@@ -77,6 +77,9 @@ class Tela:
         self.tempo_decorrido = t - self.tempo_ultimo
         self.tempo_ultimo = t
 
+    def iniciar_jogo():
+        init.init()
+
     def spawn_carrinhos(self, dt):
         caminho = "./imagens/"
         posicoes_spawn = [350, 550, 750, 950]
@@ -97,7 +100,14 @@ class Tela:
 
     def objectos_colididos(self, obj: Objeto, obj_2: Objeto):
         if (obj == self.carro or obj_2 == self.carro):
-            pygame.quit()
+            surface = pygame.display.set_mode((1440, 800))
+            menu = pygame_menu.Menu('Pista Retro', 1440, 800,
+                                    theme=pygame_menu.themes.THEME_DEFAULT)
+            
+            menu.add.button('Jogar', self.iniciar_jogo)
+            menu.add.button('Sair', pygame_menu.events.EXIT)
+
+            menu.mainloop(surface)
 
     def collision(self):
         for i in range(0, len(self.objetos) - 1):
