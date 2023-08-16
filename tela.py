@@ -69,6 +69,7 @@ class Tela:
         self.processamento_fisica(self.tempo_decorrido)
         self.renderizar_tela(self.tempo_decorrido)
         self.spawn_carrinhos(self.tempo_decorrido)
+        self.collision()
 
         pygame.display.update()
 
@@ -82,7 +83,7 @@ class Tela:
         sprites = [f"{caminho}carro_azul.png", f"{caminho}carro_amarelo.png", f"{caminho}carro_preto.png",
                    f"{caminho}carro_verde.png", f"{caminho}carro_roxo.png"]
 
-        if random.randint(0, 100) < 2:
+        if random.randint(0, 100) < 1:
             posicao_spawn = random.choice(posicoes_spawn)
             sprite_carrinho = random.choice(sprites)
 
@@ -90,3 +91,17 @@ class Tela:
                 posicaoY=0, posicaoX=posicao_spawn, imagemObj=sprite_carrinho, largura=0, altura=0, screen=self)
 
             self.adicionar_objeto(novo_carrinho)
+
+    def objetos_em_colisao(self, obj: Objeto, obj_2: Objeto):
+        return (abs((obj.posicaoX + obj.largura/2.0) - (obj_2.posicaoX + obj_2.largura/2.0)) < ((obj.largura + obj_2.largura) / 2.0) and abs((obj.posicaoY + obj.altura/2.0) - (obj_2.posicaoY + obj_2.altura/2.0)) < ((obj.altura + obj_2.altura) / 2.0))
+
+    def objectos_colididos(self, obj: Objeto, obj_2: Objeto):
+        if (obj == self.carro or obj_2 == self.carro):
+            pygame.quit()
+
+    def collision(self):
+        for i in range(0, len(self.objetos) - 1):
+            for j in range(i+1, len(self.objetos)):
+                if (self.objetos_em_colisao(self.objetos[j], self.objetos[i])):
+                    self.objectos_colididos(
+                        self.objetos[j], self.objetos[i])
