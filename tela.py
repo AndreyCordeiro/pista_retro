@@ -26,7 +26,7 @@ class Tela:
 
         pygame.display.set_caption("Pista Retro")
         self.carro = CarroJogador(
-            posicaoY=600, posicaoX=40, imagemObj="./imagens/carro_vermelho.png", largura=0, altura=0, screen=self)
+            posicaoY=600, posicaoX=670, imagemObj="./imagens/carro_vermelho.png", largura=0, altura=0, screen=self)
         self.objetos = []
 
         self.adicionar_objeto(self.carro)
@@ -77,9 +77,6 @@ class Tela:
         self.tempo_decorrido = t - self.tempo_ultimo
         self.tempo_ultimo = t
 
-    def iniciar_jogo():
-        init.init()
-
     def spawn_carrinhos(self, dt):
         caminho = "./imagens/"
         posicoes_spawn = [350, 550, 750, 950]
@@ -104,7 +101,7 @@ class Tela:
             menu = pygame_menu.Menu('Pista Retro', 1440, 800,
                                     theme=pygame_menu.themes.THEME_DEFAULT)
             
-            menu.add.button('Jogar', self.iniciar_jogo)
+            menu.add.button('Jogar', init.init)
             menu.add.button('Sair', pygame_menu.events.EXIT)
 
             menu.mainloop(surface)

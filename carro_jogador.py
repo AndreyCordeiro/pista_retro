@@ -11,8 +11,10 @@ class CarroJogador(Carro):
 
         if comando[pygame.K_RIGHT] or comando[pygame.K_d]:
             self.velocidadeX = 700
+            print(self.posicaoX)
             if (self.posicaoX > 1010):
                 self.posicaoX = 1010
+                
         elif comando[pygame.K_LEFT] or comando[pygame.K_a]:
             self.velocidadeX = -700
             if (self.posicaoX < 280):
