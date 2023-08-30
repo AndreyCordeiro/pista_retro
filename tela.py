@@ -6,6 +6,8 @@ from carro_bot import CarroBot
 import random
 import pygame_menu
 import init
+from tipo_objeto import TipoObjeto
+
 
 class Tela:
     def __init__(self, largura, altura, posicoes_y, posicoes_x, tempo_inicial):
@@ -34,17 +36,22 @@ class Tela:
     def adicionar_objeto(self, objeto):
         self.objetos.append(objeto)
 
+    def remover_objeto(self, objeto):
+        self.objetos.remove(objeto)
+
     def processamento_fisica(self, dt):
         self.carro.movimentarCarrinho(dt)
 
         for obj in self.objetos:
-            obj.processarFisica(dt)
+            if obj.vivo:
+                obj.processarFisica(dt)
 
     def renderizar_tela(self, dt):
         self.renderizar_pista(dt)
 
         for obj in self.objetos:
-            obj.renderizar(dt, self.tela)
+            if obj.vivo:
+                obj.renderizar(dt, self.tela)
 
     def renderizar_pista(self, dt):
         pygame.draw.rect(self.tela, (0, 128, 0), (1, 0, 340, 880))
@@ -69,7 +76,8 @@ class Tela:
         self.processamento_fisica(self.tempo_decorrido)
         self.renderizar_tela(self.tempo_decorrido)
         self.spawn_carrinhos(self.tempo_decorrido)
-        self.collision()
+        self.colisao()
+        self.carro.atualizar_timer(self.tempo_decorrido)
 
         pygame.display.update()
 
@@ -93,14 +101,39 @@ class Tela:
             self.adicionar_objeto(novo_carrinho)
 
     def objetos_em_colisao(self, obj: Objeto, obj_2: Objeto):
-        return (abs((obj.posicaoX + obj.largura/2.0) - (obj_2.posicaoX + obj_2.largura/2.0)) < ((obj.largura + obj_2.largura) / 2.0) and abs((obj.posicaoY + obj.altura/2.0) - (obj_2.posicaoY + obj_2.altura/2.0)) < ((obj.altura + obj_2.altura) / 2.0))
+        if obj.vivo == False or obj_2.vivo == False:
+            return False
+        else:
+            return (abs((obj.posicaoX + obj.largura/2.0) - (obj_2.posicaoX + obj_2.largura/2.0)) < ((obj.largura + obj_2.largura) / 2.0) and abs((obj.posicaoY + obj.altura/2.0) - (obj_2.posicaoY + obj_2.altura/2.0)) < ((obj.altura + obj_2.altura) / 2.0))
 
+    def tratar_colisao_bot(self, player, bot):
+        surface = pygame.display.set_mode((1440, 800))
+        menu = pygame_menu.Menu('Pista Retro', 1440, 800,
+                                theme=pygame_menu.themes.THEME_DEFAULT)
+
+        menu.add.button('Jogar', init.init)
+        menu.add.button('Sair', pygame_menu.events.EXIT)
+
+        menu.mainloop(surface)
+
+    def tratar_explosao(self, tiro, bot):
+        som_explosao = pygame.mixer.Sound('./audios/explosao.ogg')
+        som_explosao.set_volume(0.3)
+        som_explosao.play()
+
+        bot.vivo = False
+        
     def objectos_colididos(self, obj: Objeto, obj_2: Objeto):
-        if (obj == self.carro or obj_2 == self.carro):
-            image_path = "./imagens/background_game_over.png"
-            init.iniciar(image_path, True)
+        if (obj.tipo == TipoObjeto.JOGADOR and obj_2.tipo == TipoObjeto.BOT):
+            self.tratar_colisao_bot(obj, obj_2)
+        elif (obj.tipo == TipoObjeto.BOT and obj_2.tipo == TipoObjeto.JOGADOR):
+            self.tratar_colisao_bot(obj_2, obj)
+        elif (obj.tipo == TipoObjeto.BOT and obj_2.tipo == TipoObjeto.TIRO):
+            self.tratar_explosao(obj_2, obj)
+        elif (obj.tipo == TipoObjeto.TIRO and obj_2.tipo == TipoObjeto.BOT):
+            self.tratar_explosao(obj, obj_2)
 
-    def collision(self):
+    def colisao(self):
         for i in range(0, len(self.objetos) - 1):
             for j in range(i+1, len(self.objetos)):
                 if (self.objetos_em_colisao(self.objetos[j], self.objetos[i])):

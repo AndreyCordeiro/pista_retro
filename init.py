@@ -9,9 +9,10 @@ def iniciar(imagem_fundo, menu_game_over):
     pygame.init()
 
     pygame.mixer.music.load('./audios/musica_tema.ogg')
+    pygame.mixer.music.set_volume(0.5)
     pygame.mixer.music.play(-1)  # loop infinito (-1)
-    mostrar_menu(imagem_fundo, menu_game_over)
 
+    mostrar_menu(imagem_fundo, menu_game_over)
 
 
 def iniciar_jogo():

@@ -1,5 +1,5 @@
 import pygame
-
+from tipo_objeto import TipoObjeto
 
 class Objeto(pygame.sprite.Sprite):
     def __init__(self, posicaoX, posicaoY, largura, altura, imagemObj, screen):
@@ -19,6 +19,8 @@ class Objeto(pygame.sprite.Sprite):
         self.velocidadeYVirtual = 0
         self.screen = screen
         self.aceleracaoY = 0
+        self.tipo = TipoObjeto.GENERICO
+        self.vivo = True
 
     def processarFisica(self, dt):
         self.velocidadeYVirtual = (self.velocidadeYReal - self.screen.carro.velocidadeYReal) * -1
