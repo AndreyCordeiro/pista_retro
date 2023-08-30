@@ -97,14 +97,8 @@ class Tela:
 
     def objectos_colididos(self, obj: Objeto, obj_2: Objeto):
         if (obj == self.carro or obj_2 == self.carro):
-            surface = pygame.display.set_mode((1440, 800))
-            menu = pygame_menu.Menu('Pista Retro', 1440, 800,
-                                    theme=pygame_menu.themes.THEME_DEFAULT)
-            
-            menu.add.button('Jogar', init.init)
-            menu.add.button('Sair', pygame_menu.events.EXIT)
-
-            menu.mainloop(surface)
+            image_path = "./imagens/background_game_over.png"
+            init.iniciar(image_path, True)
 
     def collision(self):
         for i in range(0, len(self.objetos) - 1):
