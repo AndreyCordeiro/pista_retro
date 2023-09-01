@@ -1,5 +1,6 @@
 import pygame
 import time
+from explosão import Explosao
 from objeto import Objeto
 from carro_jogador import CarroJogador
 from carro_bot import CarroBot
@@ -25,14 +26,14 @@ class Tela:
         self.icone = pygame.image.load("./imagens/icone.jpg")
         self.tela.fill((0, 128, 0))
         pygame.display.set_icon(self.icone)
-
         pygame.display.set_caption("Pista Retro")
         self.carro = CarroJogador(
             posicaoY=600, posicaoX=670, imagemObj="./imagens/carro_vermelho.png", largura=0, altura=0, screen=self)
         self.objetos = []
         self.imagem_fundo = "./imagens/background_menu.png"
-
         self.adicionar_objeto(self.carro)
+        #self.explosao = Explosao(posicaoY=0, posicaoX=0, imagemObj="./imagens/explosao.png", largura=0, altura=0, screen=self)
+   
 
     def adicionar_objeto(self, objeto):
         self.objetos.append(objeto)
@@ -74,6 +75,7 @@ class Tela:
             self.posicoes_y[i] += self.deslocamento_pista
 
     def laco_principal(self):
+        print(self.tempo_decorrido)
         self.processamento_fisica(self.tempo_decorrido)
         self.renderizar_tela(self.tempo_decorrido)
         self.spawn_carrinhos(self.tempo_decorrido)
@@ -110,12 +112,14 @@ class Tela:
     def tratar_colisao_bot(self, player, bot):
         init.mostrar_menu(self.imagem_fundo, False)
 
+
     def tratar_explosao(self, tiro, bot):
         som_explosao = pygame.mixer.Sound('./audios/explosao.ogg')
         som_explosao.set_volume(0.3)
         som_explosao.play()
-
         bot.vivo = False
+        
+       
         
     def objectos_colididos(self, obj: Objeto, obj_2: Objeto):
         if (obj.tipo == TipoObjeto.JOGADOR and obj_2.tipo == TipoObjeto.BOT):
@@ -123,8 +127,10 @@ class Tela:
         elif (obj.tipo == TipoObjeto.BOT and obj_2.tipo == TipoObjeto.JOGADOR):
             self.tratar_colisao_bot(obj_2, obj)
         elif (obj.tipo == TipoObjeto.BOT and obj_2.tipo == TipoObjeto.TIRO):
+            Explosao.criar_explosão(self,obj)
             self.tratar_explosao(obj_2, obj)
         elif (obj.tipo == TipoObjeto.TIRO and obj_2.tipo == TipoObjeto.BOT):
+            Explosao.criar_explosão(self,obj_2)
             self.tratar_explosao(obj, obj_2)
 
     def colisao(self):
@@ -133,3 +139,6 @@ class Tela:
                 if (self.objetos_em_colisao(self.objetos[j], self.objetos[i])):
                     self.objectos_colididos(
                         self.objetos[j], self.objetos[i])
+                    
+    
+        

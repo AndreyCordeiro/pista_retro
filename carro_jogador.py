@@ -52,8 +52,8 @@ class CarroJogador(Carro):
             self.screen.adicionar_objeto(tiro)
 
             self.cooldown_timer = self.cooldown_duration
-        else:
-            print('Aguarde para atirar novamente.')
+        #else:
+           # print('Aguarde para atirar novamente.')
 
     def atualizar_timer(self, dt):
         self.cooldown_timer -= dt
