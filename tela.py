@@ -30,6 +30,7 @@ class Tela:
         self.carro = CarroJogador(
             posicaoY=600, posicaoX=670, imagemObj="./imagens/carro_vermelho.png", largura=0, altura=0, screen=self)
         self.objetos = []
+        self.imagem_fundo = "./imagens/background_menu.png"
 
         self.adicionar_objeto(self.carro)
 
@@ -107,14 +108,7 @@ class Tela:
             return (abs((obj.posicaoX + obj.largura/2.0) - (obj_2.posicaoX + obj_2.largura/2.0)) < ((obj.largura + obj_2.largura) / 2.0) and abs((obj.posicaoY + obj.altura/2.0) - (obj_2.posicaoY + obj_2.altura/2.0)) < ((obj.altura + obj_2.altura) / 2.0))
 
     def tratar_colisao_bot(self, player, bot):
-        surface = pygame.display.set_mode((1440, 800))
-        menu = pygame_menu.Menu('Pista Retro', 1440, 800,
-                                theme=pygame_menu.themes.THEME_DEFAULT)
-
-        menu.add.button('Jogar', init.init)
-        menu.add.button('Sair', pygame_menu.events.EXIT)
-
-        menu.mainloop(surface)
+        init.mostrar_menu(self.imagem_fundo, False)
 
     def tratar_explosao(self, tiro, bot):
         som_explosao = pygame.mixer.Sound('./audios/explosao.ogg')
