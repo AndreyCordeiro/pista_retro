@@ -33,6 +33,8 @@ class Tela:
         self.imagem_fundo = "./imagens/background_menu.png"
         self.adicionar_objeto(self.carro)
         #self.explosao = Explosao(posicaoY=0, posicaoX=0, imagemObj="./imagens/explosao.png", largura=0, altura=0, screen=self)
+        self.contador = 0
+        self.fonte_contador = pygame.font.Font(None, 36)
    
 
     def adicionar_objeto(self, objeto):
@@ -43,6 +45,8 @@ class Tela:
 
     def processamento_fisica(self, dt):
         self.carro.movimentarCarrinho(dt)
+
+        self.contador += self.carro.velocidadeYReal * dt
 
         for obj in self.objetos:
             if obj.vivo:
@@ -73,6 +77,9 @@ class Tela:
             if y >= self.altura:
                 self.posicoes_y[i] = 0
             self.posicoes_y[i] += self.deslocamento_pista
+
+        texto_contador = self.fonte_contador.render(f"Pontos: {int(self.contador)}", True, (255, 255, 255))
+        self.tela.blit(texto_contador, (10, 10))
 
     def laco_principal(self):
         print(self.tempo_decorrido)
